@@ -1,1 +1,1 @@
-# spring-ai-boot-template
+# <REPO_NAME>
