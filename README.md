@@ -11,3 +11,11 @@
 ✅ Day 3: Git Flow & 협업형 구조
 - 브랜치 전략 적용
 - GitHub Actions 초안 구성
+
+✅ Day 4 — Controller / Service / Repository 구조
+- 계층형 구조 패턴(Service -> Repository) 이해
+- Controller에서 DTO 입출력 분리
+
+✅ Day 5 — JPA Entity 설계 및 DTO
+- JPA Entity 와 DTO 분리 패턴 이해
+- `User`, `Post`간의 연관관계 매핑
