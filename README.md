@@ -19,3 +19,7 @@
 ✅ Day 5 — JPA Entity 설계 및 DTO
 - JPA Entity 와 DTO 분리 패턴 이해
 - `User`, `Post`간의 연관관계 매핑
+
+✅ Day 6 - CRUD API 구현
+- RESFful CRUD 패턴 구현
+- ReponseEntity 활용
