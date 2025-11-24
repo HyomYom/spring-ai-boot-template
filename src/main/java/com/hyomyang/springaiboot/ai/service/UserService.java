@@ -1,8 +1,8 @@
 package com.hyomyang.springaiboot.ai.service;
 
 import com.hyomyang.springaiboot.ai.domain.User;
-import com.hyomyang.springaiboot.ai.dto.UserRequest;
-import com.hyomyang.springaiboot.ai.dto.UserResponse;
+import com.hyomyang.springaiboot.ai.dto.user.UserRequest;
+import com.hyomyang.springaiboot.ai.dto.user.UserResponse;
 import com.hyomyang.springaiboot.ai.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
