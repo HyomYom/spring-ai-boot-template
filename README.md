@@ -23,3 +23,8 @@
 ✅ Day 6 - CRUD API 구현
 - RESFful CRUD 패턴 구현
 - ReponseEntity 활용
+
+✅ Day 7 - Validation
+
+✅ Day 8 - Common Api-Response
+- 공통 반환 객체 구현

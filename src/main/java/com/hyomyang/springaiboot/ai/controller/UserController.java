@@ -1,30 +1,33 @@
 package com.hyomyang.springaiboot.ai.controller;
 
+import com.hyomyang.springaiboot.ai.dto.response.ApiResponse;
 import com.hyomyang.springaiboot.ai.dto.user.UserRequest;
 import com.hyomyang.springaiboot.ai.dto.user.UserResponse;
 import com.hyomyang.springaiboot.ai.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userServcie;
+    private final UserService userService;
 
-    public UserController(UserService userServcie) {
-        this.userServcie = userServcie;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest req) {
-        return ResponseEntity.ok(userServcie.create(req));
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<UserResponse>> create (@Valid @RequestBody UserRequest req) {
+        UserResponse created = userService.create(req);
+        return ResponseEntity.ok(ApiResponse.ok(created));
     }
 
-    public ResponseEntity<UserResponse> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(userServcie.getById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponse>> getById(@PathVariable Long id) {
+        UserResponse user = userService.getById(id);
+        return ResponseEntity.ok(ApiResponse.ok(user));
     }
 }

@@ -4,6 +4,7 @@ package com.hyomyang.springaiboot.ai.handler;
 import com.hyomyang.springaiboot.ai.dto.error.ErrorCode;
 import com.hyomyang.springaiboot.ai.dto.error.ErrorResponse;
 import com.hyomyang.springaiboot.ai.dto.error.FieldErrorDetail;
+import com.hyomyang.springaiboot.ai.dto.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class GlobalExceptionHandler {
 
     // 1) @Valid 검증 실패
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handelValidationException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handelValidationException(
             MethodArgumentNotValidException ex,
             HttpServletRequest req) {
         List<FieldErrorDetail> fieldErrors = ex.getBindingResult()
@@ -35,12 +36,13 @@ public class GlobalExceptionHandler {
                 fieldErrors
         );
         return ResponseEntity.status(ErrorCode.VALIDATION_FAILED.getStatus())
-                .body(response);
+                .body(ApiResponse.error(ErrorCode.VALIDATION_FAILED.getMessage(),
+                        response));
     };
 
     // 2) JSON 파싱 오류
     @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleMalformedJson(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleMalformedJson(
             Exception ex,
             HttpServletRequest request
     ) {
@@ -53,12 +55,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(ErrorCode.MALFORMED_JSON.getStatus())
-                .body(response);
+                .body(ApiResponse.error(
+                        ErrorCode.MALFORMED_JSON.getMessage(),
+                        response
+                ));
     }
 
     // 3) 그 외 모든 예외
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleException(
             Exception ex,
             HttpServletRequest request
     ) {
@@ -71,7 +76,10 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(ErrorCode.BUSINESS_ERROR.getStatus())
-                .body(response);
+                .body(ApiResponse.error(
+                        ErrorCode.BUSINESS_ERROR.getMessage(),
+                        response
+                ));
     }
 
 }
