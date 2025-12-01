@@ -5,11 +5,13 @@ import com.hyomyang.springaiboot.ai.dto.user.UserRequest;
 import com.hyomyang.springaiboot.ai.dto.user.UserResponse;
 import com.hyomyang.springaiboot.ai.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+//@RequiredArgsConstructor 생성자 대체
 public class UserController {
 
     private final UserService userService;
