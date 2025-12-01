@@ -16,7 +16,7 @@
 - 계층형 구조 패턴(Service -> Repository) 이해
 - Controller에서 DTO 입출력 분리
 
-✅ Day 5 — JPA Entity 설계 및 DTO
+✅ Day 5: JPA Entity 설계 및 DTO
 - JPA Entity 와 DTO 분리 패턴 이해
 - `User`, `Post`간의 연관관계 매핑
 
@@ -24,7 +24,9 @@
 - RESFful CRUD 패턴 구현
 - ReponseEntity 활용
 
-✅ Day 7 - Validation
+✅ Day 7: Validation
 
-✅ Day 8 - Common Api-Response
+✅ Day 8: Common Api-Response
 - 공통 반환 객체 구현
+
+✅ Day 9: Spring Boot 테스트 코드 작성
