@@ -1,32 +1,62 @@
-# 60일 이직 챌린지
-✅ Day 1: 프로젝트 환경 세팅 완료  
-- Spring Boot + Gradle 초기화  
-- GitHub 업로드 및 환경 구성  
+🗓 60-Day Backend Challenge (Day 1–10)
+✅ Day 1 – Project Setup
 
-✅ Day 2: Docker 기반 환경 구성  
-- MySQL + Adminer 컨테이너 실행 확인  
-- application-dev.yml 연결 완료  
+- Spring Boot + Gradle 프로젝트 초기화
 
+- GitHub 저장소 구성 및 기본 환경 설정
 
-✅ Day 3: Git Flow & 협업형 구조
-- 브랜치 전략 적용
-- GitHub Actions 초안 구성
+✅ Day 2 – Docker Environment
 
-✅ Day 4 — Controller / Service / Repository 구조
-- 계층형 구조 패턴(Service -> Repository) 이해
-- Controller에서 DTO 입출력 분리
+- Docker 기반 MySQL / Adminer 구성
 
-✅ Day 5: JPA Entity 설계 및 DTO
-- JPA Entity 와 DTO 분리 패턴 이해
-- `User`, `Post`간의 연관관계 매핑
+- application-dev.yml로 개발 환경 분리
 
-✅ Day 6 - CRUD API 구현
-- RESFful CRUD 패턴 구현
-- ReponseEntity 활용
+✅ Day 3 – Git Flow & Collaboration
 
-✅ Day 7: Validation
+- Git Flow 브랜치 전략 적용
 
-✅ Day 8: Common Api-Response
-- 공통 반환 객체 구현
+- GitHub Actions CI 초안 구성
 
-✅ Day 9: Spring Boot 테스트 코드 작성
+✅ Day 4 – Layered Architecture
+
+- Controller / Service / Repository 계층 분리
+
+- DTO 기반 요청·응답 구조 설계
+
+✅ Day 5 – JPA Entity & DTO Design
+
+- Entity ↔ DTO 분리 패턴 적용
+
+- JPA 연관관계 매핑 (User, Post)
+
+✅ Day 6 – RESTful CRUD APIs
+
+- RESTful CRUD API 구현
+
+- ResponseEntity를 활용한 HTTP 응답 처리
+
+✅ Day 7 – Validation & Exception Handling
+
+- Bean Validation 적용 (@Valid)
+
+- 공통 예외 처리 구조 구성
+
+✅ Day 8 – Common API Response
+
+- ApiResponse<T> 공통 응답 포맷 도입
+
+- 일관된 API 응답 구조 적용
+
+✅ Day 9 – Testing
+
+- Controller / Service 단위 테스트 작성
+
+- 최신 Spring Boot 테스트 스타일 적용
+
+✅ Day 10 – Swagger / OpenAPI Documentation
+
+- SpringDoc(OpenAPI 3) 기반 API 문서화
+
+- Swagger UI를 통한 API 확인 및 테스트
+
+- Controller 단위 API 설명 명시 (@Tag, @Operation)
