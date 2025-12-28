@@ -9,6 +9,6 @@ public record FieldErrorDetail(
 ) {
     public static FieldErrorDetail from(FieldError error) {
         String rejected = error.getRejectedValue() == null ? "" : error.getRejectedValue().toString();
-        return new FieldErrorDetail(error.getField(), rejected,error.getDefaultMessage());
+        return new FieldErrorDetail(error.getField(), rejected, error.getDefaultMessage());
     }
 }

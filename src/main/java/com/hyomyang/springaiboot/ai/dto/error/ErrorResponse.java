@@ -29,7 +29,7 @@ public record ErrorResponse( // record 클래스는 순서대로 들어가야 �
                 errorCode.getStatus().value(),
                 path,
                 LocalDateTime.now(),
-                List.of()
+                fieldErrors
         );
     }
 }

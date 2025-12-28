@@ -60,3 +60,8 @@
 - Swagger UI를 통한 API 확인 및 테스트
 
 - Controller 단위 API 설명 명시 (@Tag, @Operation)
+
+✅ Day 11 – Spring Security + JWT 인증
+- Spring Security 기반 Stateless 인증 구조 설계
+5- AuthenticationEntryPoint / AccessDeniedHandler로 401/403 응답 표준화
+- 공통 응답 포맷(ApiResponse) 적용

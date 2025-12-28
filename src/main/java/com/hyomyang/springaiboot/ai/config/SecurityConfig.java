@@ -1,0 +1,52 @@
+package com.hyomyang.springaiboot.ai.config;
+
+import com.hyomyang.springaiboot.ai.component.RestAccessDenieHandler;
+import com.hyomyang.springaiboot.ai.component.RestAuthenticationEntryPoint;
+import com.hyomyang.springaiboot.ai.filter.JwtAuthenticationFilter;
+import com.hyomyang.springaiboot.ai.security.jwt.JwtTokenProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                            JwtTokenProvider jwtTokenProvider,
+                                            RestAuthenticationEntryPoint entryPoint,
+                                            RestAccessDenieHandler accessDenieHandler
+
+    ) throws Exception {
+
+        http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(entryPoint)       // 401
+                        .accessDeniedHandler(accessDenieHandler)    // 403
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/actuator/health",
+                                "/api/auth/**"       // Day12에서 login/refresh/logout 들어갈 자리
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                );
+
+        http.addFilterBefore(
+                new JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter.class
+        );
+
+        return http.build();
+    };
+}
