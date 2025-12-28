@@ -36,8 +36,11 @@ public class GlobalExceptionHandler {
                 fieldErrors
         );
         return ResponseEntity.status(ErrorCode.VALIDATION_FAILED.getStatus())
-                .body(ApiResponse.error(ErrorCode.VALIDATION_FAILED.getMessage(),
-                        response));
+                .body(ApiResponse.error(
+                        response,
+                        ErrorCode.VALIDATION_FAILED.getMessage()
+                        )
+                );
     };
 
     // 2) JSON 파싱 오류
@@ -56,8 +59,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(ErrorCode.MALFORMED_JSON.getStatus())
                 .body(ApiResponse.error(
-                        ErrorCode.MALFORMED_JSON.getMessage(),
-                        response
+                        response,
+                        ErrorCode.MALFORMED_JSON.getMessage()
                 ));
     }
 
@@ -77,8 +80,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(ErrorCode.BUSINESS_ERROR.getStatus())
                 .body(ApiResponse.error(
-                        ErrorCode.BUSINESS_ERROR.getMessage(),
-                        response
+                        response,
+                        ErrorCode.BUSINESS_ERROR.getMessage()
                 ));
     }
 

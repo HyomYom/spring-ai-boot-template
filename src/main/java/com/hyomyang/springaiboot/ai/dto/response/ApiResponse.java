@@ -9,7 +9,7 @@ public record ApiResponse<T>(
         return new ApiResponse<>(true, data, null);
     }
 
-    public static <T> ApiResponse<T> error(String msg, T data){
+    public static <T> ApiResponse<T> error(T data, String msg){
         return new ApiResponse<>(false, data, msg);
     }
     public static <T> ApiResponse<T> error(T data){
