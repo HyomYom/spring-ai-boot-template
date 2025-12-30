@@ -19,7 +19,7 @@ public class InMemoryRefreshTokenStore implements RefreshTokenStore{
 
     @Override
     public void save(Long userId, String jti, Instant expiresAt) {
-        store.put(key(userId, jti), expiresAt   );
+        store.put(key(userId, jti), expiresAt);
 
     }
 

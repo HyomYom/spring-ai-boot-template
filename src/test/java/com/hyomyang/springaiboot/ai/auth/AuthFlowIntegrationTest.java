@@ -54,7 +54,32 @@ public class AuthFlowIntegrationTest {
                 .andReturn().getResponse().getContentAsString();
 
         String r1 = JsonPath.read(loginsRes, "$.data.refreshToken");
+
+        // 2) refresh with r1 (success)
+        String refreshRes1 = mockMvc.perform(post("/api/auth/refresh")
+                        .header("Authorization", "Bearer " + r1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andReturn().getResponse().getContentAsString();
+
+        String r2 = JsonPath.read(refreshRes1, "$.data.refreshToken");
+
+        // 3) reuse r1 -> 401
+        mockMvc.perform(post("/api/auth/refresh")
+                .header("Authorization", "Bearer " + r1))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.data.code").value("REFRESH_REVOKED_OR_REUSED"));
+
+
+        // 4) r2 -> should succeed
+        mockMvc.perform(post("/api/auth/refresh")
+                .header("Authorization", "Bearer " + r2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
     }
+
 
 
 
