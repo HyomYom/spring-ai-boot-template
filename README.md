@@ -63,5 +63,8 @@
 
 ✅ Day 11 – Spring Security + JWT 인증
 - Spring Security 기반 Stateless 인증 구조 설계
-5- AuthenticationEntryPoint / AccessDeniedHandler로 401/403 응답 표준화
+- AuthenticationEntryPoint / AccessDeniedHandler로 401/403 응답 표준화
 - 공통 응답 포맷(ApiResponse) 적용
+
+✅ Day 12 – Refresh Token 순환 및 재사용 탐지
+- 

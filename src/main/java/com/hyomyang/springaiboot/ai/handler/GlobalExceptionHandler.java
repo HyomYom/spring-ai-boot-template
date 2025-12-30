@@ -5,6 +5,7 @@ import com.hyomyang.springaiboot.ai.dto.error.ErrorCode;
 import com.hyomyang.springaiboot.ai.dto.error.ErrorResponse;
 import com.hyomyang.springaiboot.ai.dto.error.FieldErrorDetail;
 import com.hyomyang.springaiboot.ai.dto.response.ApiResponse;
+import com.hyomyang.springaiboot.ai.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,28 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // 3) 그 외 모든 예외
+    // 3) 토큰
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleUnauthorized(
+            UnauthorizedException ex,
+            HttpServletRequest request
+    ){
+        log.warn("Unauthorized: {}", request.getRequestURI(), ex);
+        ErrorCode errorCode = ex.getErrorCode();
+        ErrorResponse response = ErrorResponse.of(
+                errorCode,
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(errorCode.getStatus())
+                .body(ApiResponse.error(
+                        response,
+                        response.message()
+                ));
+    }
+
+
+    // 4) 그 외 모든 예외
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<ErrorResponse>> handleException(
             Exception ex,

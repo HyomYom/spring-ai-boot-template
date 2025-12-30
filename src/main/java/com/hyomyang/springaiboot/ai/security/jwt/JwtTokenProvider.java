@@ -66,6 +66,8 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token);
     }
 
+
+    // == getUserId
     public Long getSubject(String token){
         String sub = Jwts.parser()
                 .verifyWith(key)
@@ -75,6 +77,14 @@ public class JwtTokenProvider {
                 .getSubject();
 
         return Long.parseLong(sub);
+    }
+
+    public String getJti(Jws<Claims> jws) {
+        return jws.getPayload().getId();
+    }
+
+    public Instant getExpires(Jws<Claims> jws) {
+        return jws.getPayload().getExpiration().toInstant();
     }
 
     public boolean validate(String token){
