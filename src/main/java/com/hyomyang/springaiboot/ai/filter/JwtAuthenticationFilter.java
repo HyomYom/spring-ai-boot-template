@@ -1,6 +1,7 @@
 package com.hyomyang.springaiboot.ai.filter;
 
 import com.hyomyang.springaiboot.ai.component.TokenExtractor;
+import com.hyomyang.springaiboot.ai.security.UserPrincipal;
 import com.hyomyang.springaiboot.ai.security.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -10,12 +11,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -37,8 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if(!tokenProvider.isRefresh(jws)){
                     // 여기서는 그냥 인증 세팅 안 하고 통과시키면,
                     // 보호된 엔드포인트에서 401로 떨어짐(표준 응답은 entryPoint가 처리)
+
                     Long userId = Long.valueOf(jws.getPayload().getSubject());
-                    var auth = new UsernamePasswordAuthenticationToken(userId, null, List.of());
+                    List<String> rolesList = jws.getPayload().get("roles", List.class);
+
+                    UserPrincipal userPrincipal = new UserPrincipal(userId, rolesList);
+
+                    List<SimpleGrantedAuthority> authorities = rolesList.stream()
+                            .map(SimpleGrantedAuthority::new)
+                            .toList();
+
+                    var auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
 

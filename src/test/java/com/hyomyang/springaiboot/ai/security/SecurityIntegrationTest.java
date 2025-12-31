@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.*;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,14 +36,28 @@ public class SecurityIntegrationTest {
         ;
     }
 
+
     @Test
     void accessToken_shouldReturn200() throws Exception {
-        String accessToken = tokenProvider.createAccessToken(1L);
+        Set<String> roles = new HashSet<>(List.of("ROLE_ADMIN"));
+        String accessToken = tokenProvider.createAccessToken(1L, roles);
         mockMvc.perform(get("/api/secure/ping")
-                .header("Authorization","Bearer " + accessToken ))
+                        .header("Authorization","Bearer " + accessToken ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").value("pong:1"));
+
+    }
+
+    @Test
+    void accessToken_shouldReturn401() throws Exception {
+
+        Set<String> roles = new HashSet<>(List.of("ROLE_USER"));
+        String accessToken = tokenProvider.createAccessToken(1L, roles);
+        mockMvc.perform(get("/api/secure/admin/ping")
+                        .header("Authorization","Bearer " + accessToken ))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.success").value(false));
 
     }
 

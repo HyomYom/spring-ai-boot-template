@@ -3,6 +3,7 @@ package com.hyomyang.springaiboot.ai.service;
 import com.hyomyang.springaiboot.ai.dto.auth.LoginRequest;
 import com.hyomyang.springaiboot.ai.dto.auth.TokenPair;
 import com.hyomyang.springaiboot.ai.dto.error.ErrorCode;
+import com.hyomyang.springaiboot.ai.dto.user.UserResponse;
 import com.hyomyang.springaiboot.ai.exception.UnauthorizedException;
 import com.hyomyang.springaiboot.ai.security.jwt.JwtTokenProvider;
 import com.hyomyang.springaiboot.ai.security.refresh.RefreshTokenStore;
@@ -11,17 +12,21 @@ import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    private final UserService userService;
     private final JwtTokenProvider tokenProvider;
     private final RefreshTokenStore refreshTokenStore;
 
     public TokenPair login(LoginRequest req){
         // 추후 진짜 로그인으로 벼녁ㅇ
         Long userId = 1L; //TODO: 실제로는 username/pw 검증 후 조회된 userId
-        
-        String access = tokenProvider.createAccessToken(userId);
+        Set<String> roles = new HashSet<>(List.of("ROLE_ADMIN"));
+
+        String access = tokenProvider.createAccessToken(userId, roles);
         String refresh = tokenProvider.createRefreshToken(userId);
 
         Jws<Claims> refreshJws = tokenProvider.parseToken(refresh);
@@ -62,7 +67,9 @@ public class AuthService {
         refreshTokenStore.revoke(userId,jti);
 
         // 새 refresh
-        String newAccess = tokenProvider.createAccessToken(userId);
+        UserResponse response = userService.getById(userId);
+        Set<String> roles = new HashSet<>(List.of(response.role()));
+        String newAccess = tokenProvider.createAccessToken(userId, roles);
         String newRefresh = tokenProvider.createRefreshToken(userId);
 
         // 새 refresh 저장

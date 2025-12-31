@@ -15,14 +15,14 @@ public class UserService {
     }
 
     public UserResponse create(UserRequest req){
-        User user = repo.save(new User(null, req.email(), req.name()));
+        User user = repo.save(new User(null, req.email(), req.name(), req.role()));
 
-        return new UserResponse(user.getId(), user.getEmail(), user.getName());
+        return UserResponse.of(user);
 
     }
 
     public UserResponse getById(Long id){
         User u = repo.findById(id).orElseThrow(()->new RuntimeException("user not found"));
-        return new UserResponse(u.getId(), u.getEmail(), u.getName());
+        return UserResponse.of(u, u.getRole());
     }
 }
