@@ -29,9 +29,21 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
+
+        String authError = (String) request.getAttribute("auth_error");
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
+
+        ErrorCode errorCode = switch (authError) {
+            case "TOKEN_EXPIRED" -> ErrorCode.TOKEN_EXPIRED;
+            case "TOKEN_INVALID_SIGNATURE" -> ErrorCode.TOKEN_EXPIRED;
+            case "TOKEN_MALFORMED" -> ErrorCode.TOKEN_EXPIRED;
+            case "TOKEN_UNSUPPORTED" -> ErrorCode.TOKEN_EXPIRED;
+            case "TOKEN_INVALID" -> ErrorCode.TOKEN_EXPIRED;
+            default -> ErrorCode.UNAUTHORIZED;
+        };
 
         ErrorResponse err = ErrorResponse.of(
                 ErrorCode.UNAUTHORIZED,

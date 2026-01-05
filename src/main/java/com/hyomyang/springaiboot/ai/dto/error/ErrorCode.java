@@ -18,7 +18,10 @@ public enum ErrorCode {
     TOKEN_TYPE_MISMATCH(HttpStatus.UNAUTHORIZED, "TOKEN_TYPE_MISMATCH", "토큰 타입이 올바르지 않습니다."),
     REFRESH_REVOKED_OR_REUSED(HttpStatus.UNAUTHORIZED, "REFRESH_REVOKED_OR_REUSED", "Refresh 토큰이 폐기되었거나 재사용되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "토큰이 유효하지 않습니다."),
-    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다.");
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
+    TOKEN_UNSUPPORTED(HttpStatus.UNAUTHORIZED, "TOKEN_UNSUPPORTED", "지원하지 않는 토큰 형식입니다."),
+    TOKEN_MALFORMED(HttpStatus.UNAUTHORIZED, "TOKEN_MALFORMED", "토큰 형식이 올바르지 않습니다."),
+    TOKEN_INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID_SIGNATURE", "토큰 서명이 올바르지 않습니다.");
 
     private final HttpStatus status;
     private final String code;

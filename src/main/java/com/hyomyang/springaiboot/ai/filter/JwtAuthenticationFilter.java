@@ -42,8 +42,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
 
+            } catch (io.jsonwebtoken.ExpiredJwtException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_EXPIRED");
+
+            } catch (io.jsonwebtoken.security.SignatureException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_INVALID_SIGNATURE");
+
+            } catch (io.jsonwebtoken.MalformedJwtException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_MALFORMED");
+
+            } catch (io.jsonwebtoken.UnsupportedJwtException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_UNSUPPORTED");
+
+            } catch (IllegalArgumentException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_INVALID");
+
             } catch (Exception e) {
                 SecurityContextHolder.clearContext();
+                request.setAttribute("auth_error", "TOKEN_INVALID");
             }
 
         }
