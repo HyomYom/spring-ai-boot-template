@@ -31,10 +31,9 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException, ServletException {
 
         String authError = (String) request.getAttribute("auth_error");
+        // null이면 "null"이 되니, 아래처럼 처리할 수도
+        if (request.getAttribute("auth_error") == null) authError = "";
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
 
         ErrorCode errorCode = switch (authError) {
             case "TOKEN_EXPIRED" -> ErrorCode.TOKEN_EXPIRED;
@@ -45,13 +44,18 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             default -> ErrorCode.UNAUTHORIZED;
         };
 
+        response.setStatus(errorCode.getStatus().value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+
         ErrorResponse err = ErrorResponse.of(
-                ErrorCode.UNAUTHORIZED,
+                errorCode,
                 request.getRequestURI()
         );
 
         ApiResponse<ErrorResponse> body = ApiResponse.error(
-                ErrorCode.UNAUTHORIZED.getMessage()
+                err,
+                errorCode.getMessage()
         );
 
         objectMapper.writeValue(response.getWriter(), body);
