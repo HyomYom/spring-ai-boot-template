@@ -22,6 +22,9 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String role;
+
     public User(String email, String name) {
         this.email = email;
         this.name = name;

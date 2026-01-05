@@ -43,7 +43,7 @@ public class UserControllerTest implements TestWatcher {
 
     @Test
     void getUserById_success() throws Exception {
-        UserResponse mockUser = new UserResponse(1L, "test@naver.com", "tester");
+        UserResponse mockUser = new UserResponse(1L, "test@naver.com", "tester", "USER");
         when(userService.getById(1L)).thenReturn(mockUser);
 
         mockMvc.perform(
@@ -53,7 +53,8 @@ public class UserControllerTest implements TestWatcher {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.id").value(1L))
                 .andExpect(jsonPath("$.data.email").value("test@naver.com"))
-                .andExpect(jsonPath("$.data.name").value("tester"));
+                .andExpect(jsonPath("$.data.name").value("tester"))
+                .andExpect(jsonPath("$.data.role").value("USER"));
 
 
 

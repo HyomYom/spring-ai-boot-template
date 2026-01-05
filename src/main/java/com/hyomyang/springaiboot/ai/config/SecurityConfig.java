@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/actuator/health",
                                 "/api/auth/**"       // Day12에서 login/refresh/logout 들어갈 자리
                         ).permitAll()
+                        .requestMatchers("/api/secure/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

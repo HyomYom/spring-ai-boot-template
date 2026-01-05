@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UserRequest (
         @Email(message = "{user.email.invalid}")
-        @NotBlank(message = "{user.email.required")
+        @NotBlank(message = "{user.email.required}")
         String email,
-        @NotBlank(message = "{user.name.required")
-        String name
+        @NotBlank(message = "{user.name.required}")
+        String name,
+        @NotBlank(message = "user.role.required")
+        String role
         ){
 
 }

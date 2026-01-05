@@ -13,6 +13,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -32,7 +34,7 @@ public class JwtTokenProvider {
         this.clock = clock;
     }
 
-    public String createAccessToken(Long userId) {
+    public String createAccessToken(Long userId, Set<String> roles) {
         Instant now = Instant.now(clock);
         Instant exp = now.plus(jwtProps.accessTokenExpMin(), ChronoUnit.MINUTES);
 
@@ -41,6 +43,7 @@ public class JwtTokenProvider {
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(exp))
                 .claim("type","access")
+                .claim("roles", roles)
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
