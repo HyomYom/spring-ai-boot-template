@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -88,6 +89,18 @@ public class JwtTokenProvider {
 
     public Instant getExpires(Jws<Claims> jws) {
         return jws.getPayload().getExpiration().toInstant();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Set<String> getRoles(Jws<Claims> jws) {
+        Object roles = jws.getPayload().get("roles");
+
+        if(roles == null) return Set.of("ROLE_USER");
+        if(roles instanceof List<?> list){
+            return list.stream().map(String::valueOf).collect(Collectors.toSet());
+        }
+
+        return Set.of(String.valueOf(roles));
     }
 
     public boolean validate(String token){

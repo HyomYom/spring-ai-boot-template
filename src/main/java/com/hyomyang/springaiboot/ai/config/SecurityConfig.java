@@ -1,6 +1,6 @@
 package com.hyomyang.springaiboot.ai.config;
 
-import com.hyomyang.springaiboot.ai.component.RestAccessDenieHandler;
+import com.hyomyang.springaiboot.ai.component.ApiAccessDeniedHandler;
 import com.hyomyang.springaiboot.ai.component.RestAuthenticationEntryPoint;
 import com.hyomyang.springaiboot.ai.filter.JwtAuthenticationFilter;
 import com.hyomyang.springaiboot.ai.security.jwt.JwtTokenProvider;
@@ -21,7 +21,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http,
                                             JwtTokenProvider jwtTokenProvider,
                                             RestAuthenticationEntryPoint entryPoint,
-                                            RestAccessDenieHandler accessDenieHandler
+                                            ApiAccessDeniedHandler accessDeniedHandler
 
     ) throws Exception {
 
@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(entryPoint)       // 401
-                        .accessDeniedHandler(accessDenieHandler)    // 403
+                        .accessDeniedHandler(accessDeniedHandler)    // 403
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
