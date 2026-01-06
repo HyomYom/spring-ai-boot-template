@@ -45,7 +45,7 @@ public class SecurityIntegrationTest {
                         .header("Authorization","Bearer " + accessToken ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value("pong:1"));
+                .andExpect(jsonPath("$.data").value("admin-pong:1"));
 
     }
 

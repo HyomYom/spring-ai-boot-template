@@ -18,7 +18,7 @@ public class SecureController {
     @GetMapping("/ping")
     public ResponseEntity<ApiResponse<String>> ping(@AuthenticationPrincipal UserPrincipal userPrincipal){
 
-        String msg = "pong:" + userPrincipal.userId();
+        String msg = "pong:" + userPrincipal.getUserId();
         return ResponseEntity.ok(ApiResponse.ok(msg));
     }
 
@@ -26,7 +26,7 @@ public class SecureController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/ping")
     public ResponseEntity<ApiResponse<String>> adminPing(@AuthenticationPrincipal UserPrincipal userPrincipal){
-        String msg = "pong:" + userPrincipal.userId();
+        String msg = "admin-pong:" + userPrincipal.getUserId();
         return ResponseEntity.ok(ApiResponse.ok(msg));
     }
 }
