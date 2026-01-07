@@ -67,8 +67,12 @@
 
 ✅ Day 12 – Refresh Token 순환 및 재사용 탐지
 - Refresh Token 1회성 사용(One-time use) 구조로 개선
-- MockMvc 기반 테스트로 정상/비정상 시나리오 검증\
+- MockMvc 기반 테스트로 정상/비정상 시나리오 검증
 
 ✅ Day 13 – JWT 인증 오류 분기 & 권한 인가 구조 정리
 - JWT 인증 필터(JwtAuthenticationFilter)에서 토큰 파싱 실패 사유를 request attribute로 기록하도록 개선
 - AuthenticationEntryPoint에서 해당 사유를 읽어 ErrorCode 기반의 표준 ErrorResponse 반환
+- 
+✅ Day 14 – Role 기반 Authorization & 401/403 표준화
+- Access Token에 권한(Role)을 포함
+- Spring Security가 권한 기반으로 API 접근을 제어 설정

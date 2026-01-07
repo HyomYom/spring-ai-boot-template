@@ -19,7 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -43,13 +45,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     // 보호된 엔드포인트에서 401로 떨어짐(표준 응답은 entryPoint가 처리)
 
                     Long userId = Long.valueOf(jws.getPayload().getSubject());
-                    List<String> rolesList = jws.getPayload().get("roles", List.class);
+                    Object raw = jws.getPayload().get("roles");
+                    List<String> roleUser = raw instanceof List<?> list ?
+                            list.stream().map(String::valueOf).collect(Collectors.toList())
+                            : List.of("ROLE_USER");
 
-                    UserPrincipal userPrincipal = new UserPrincipal(userId, rolesList);
+                    UserPrincipal userPrincipal = new UserPrincipal(userId, "", roleUser);
 
-                    List<SimpleGrantedAuthority> authorities = rolesList.stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .toList();
+                    List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>) userPrincipal.getAuthorities();
 
                     var auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(auth);
