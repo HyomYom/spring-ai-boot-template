@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -29,16 +30,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthFlowIntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
-    @Autowired
-    UserRepository userRepository;
+    @Autowired UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         // login에서 username/password로 유저를 찾거나,
         // getById에 쓰일 데이터가 필요하면 여기서 미리 insert
-        userRepository.save(new User("pagooo@naver.com", "test", "ROLE_USER"));
-    }
+        Optional<User> byId = userRepository.findById(1L);
+        byId.orElseGet(() -> userRepository.save(new User("pagooo@naver.com", "test", "ROLE_USER")));
 
+    }
 
     @Test
     void login_shouldIssueAccessAndRefresh() throws Exception {
