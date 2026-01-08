@@ -2,8 +2,11 @@ package com.hyomyang.springaiboot.ai.auth;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hyomyang.springaiboot.ai.domain.User;
 import com.hyomyang.springaiboot.ai.logger.TestLogger;
+import com.hyomyang.springaiboot.ai.repository.UserRepository;
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthFlowIntegrationTest {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
+    @Autowired
+    UserRepository userRepository;
 
+    @BeforeEach
+    void setUp() {
+        // login에서 username/password로 유저를 찾거나,
+        // getById에 쓰일 데이터가 필요하면 여기서 미리 insert
+        userRepository.save(new User("pagooo@naver.com", "test", "ROLE_USER"));
+    }
 
 
     @Test

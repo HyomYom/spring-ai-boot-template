@@ -25,9 +25,10 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    public User(String email, String name) {
+    public User(String email, String name, String role) {
         this.email = email;
         this.name = name;
+        this.role = role;
     }
 
 }
