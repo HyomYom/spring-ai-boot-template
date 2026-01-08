@@ -41,7 +41,7 @@ public class SecurityIntegrationTest {
     void accessToken_shouldReturn200() throws Exception {
         Set<String> roles = new HashSet<>(List.of("ROLE_ADMIN"));
         String accessToken = tokenProvider.createAccessToken(1L, roles);
-        mockMvc.perform(get("/api/secure/ping")
+        mockMvc.perform(get("/api/secure/admin/ping")
                         .header("Authorization","Bearer " + accessToken ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
